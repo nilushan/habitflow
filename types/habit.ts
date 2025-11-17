@@ -18,18 +18,19 @@ export type HabitCategory = z.infer<typeof HabitCategory>;
  */
 export const DailyFrequency = z.object({
   type: z.literal("daily"),
+  timesPerDay: z.number().int().min(1).max(10),
 });
 
 export const WeeklyFrequency = z.object({
   type: z.literal("weekly"),
-  days: z.array(
-    z.enum(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
-  ).min(1),
+  daysOfWeek: z.array(z.number().int().min(0).max(6)).min(1, "Select at least one day"),
+  timesPerDay: z.number().int().min(1).max(10),
 });
 
 export const CustomFrequency = z.object({
   type: z.literal("custom"),
-  pattern: z.string(), // e.g., "every 2 days", "3 times per week"
+  targetDays: z.number().int().min(1).max(365),
+  perWeeks: z.number().int().min(1).max(52),
 });
 
 export const HabitFrequency = z.discriminatedUnion("type", [
