@@ -29,6 +29,7 @@ export const habits = pgTable(
     category: text("category").notNull(), // 'health' | 'work' | 'learning' | 'social' | 'other'
     frequency: jsonb("frequency").notNull(), // {"type": "daily"} or {"type": "weekly", "days": ["Mon", "Wed"]}
     createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
     archivedAt: timestamp("archived_at"),
     sortOrder: integer("sort_order").default(0).notNull(),
   },
