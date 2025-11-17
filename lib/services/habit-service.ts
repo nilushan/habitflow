@@ -32,6 +32,7 @@ export async function createHabit(
 
   return {
     ...habit,
+    category: habit.category as any, // Type assertion for text column
     frequency: habit.frequency as any, // Type assertion for JSONB
   };
 }
@@ -45,18 +46,21 @@ export async function getHabitsByUserId(
 ): Promise<Habit[]> {
   const { includeArchived = false } = options;
 
-  let query = db.select().from(habits).where(eq(habits.userId, userId));
+  // Build where conditions
+  const conditions = includeArchived
+    ? eq(habits.userId, userId)
+    : and(eq(habits.userId, userId), isNull(habits.archivedAt));
 
-  // Filter out archived habits unless requested
-  if (!includeArchived) {
-    query = query.where(isNull(habits.archivedAt)) as any;
-  }
-
-  const result = await query.orderBy(habits.sortOrder, habits.createdAt);
+  const result = await db
+    .select()
+    .from(habits)
+    .where(conditions)
+    .orderBy(habits.sortOrder, habits.createdAt);
 
   return result.map((h) => ({
     ...h,
-    frequency: h.frequency as any, // Type assertion for JSONB
+    category: h.category as any,
+    frequency: h.frequency as any,
   }));
 }
 
@@ -79,6 +83,7 @@ export async function getHabitById(
 
   return {
     ...habit,
+    category: habit.category as any,
     frequency: habit.frequency as any,
   };
 }
@@ -116,6 +121,7 @@ export async function updateHabit(
 
   return {
     ...updated,
+    category: updated.category as any,
     frequency: updated.frequency as any,
   };
 }
