@@ -274,6 +274,7 @@ Read in this order for context:
 2. `docs/ARCHITECTURE.md` - Technical architecture, data flow, tech stack
 3. `docs/DEVELOPMENT_GUIDE.md` - Coding standards, TDD examples, best practices
 4. `docs/QUICK_START_CHECKLIST.md` - Phase-by-phase implementation checklist
+5. `docs/PHASE_3_REFINED_UI_DESIGN.md` - Comprehensive UI/UX design for gamified habit logging (Jan 2025)
 
 ## Common Pitfalls to Avoid
 

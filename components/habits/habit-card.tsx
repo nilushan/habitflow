@@ -9,6 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { HabitCheckbox } from "@/components/habits/habit-checkbox";
+import { useHabitLogsWithStats } from "@/hooks/use-habit-logs";
 
 interface HabitCardProps {
   habit: Habit;
@@ -50,6 +52,8 @@ const categoryIcons = {
 } as const;
 
 export function HabitCard({ habit, onEdit, onDelete, onArchive }: HabitCardProps) {
+  const { data: stats } = useHabitLogsWithStats(habit.id);
+
   const formatFrequency = (frequency: Habit["frequency"]): string => {
     switch (frequency.type) {
       case "daily":
@@ -99,6 +103,31 @@ export function HabitCard({ habit, onEdit, onDelete, onArchive }: HabitCardProps
 
       <CardContent className="relative">
         <div className="space-y-5">
+          {/* Today's Checkbox & Streak - BOLD BOX */}
+          <div className="bg-[#f5efe6] rounded-xl p-5 border-3 border-[#2d3134] transform group-hover:scale-[1.02] transition-transform duration-300">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${categoryGradients[habit.category]} border-2 border-[#2d3134] flex items-center justify-center`}>
+                  <span className="text-2xl">✓</span>
+                </div>
+                <div>
+                  <p className="text-xs text-[#6b6560] uppercase tracking-wider font-bold">Today</p>
+                  <div className="mt-2">
+                    <HabitCheckbox habitId={habit.id} size="lg" />
+                  </div>
+                </div>
+              </div>
+              {stats && stats.currentStreak > 0 && (
+                <div className="text-right">
+                  <p className="text-xs text-[#6b6560] uppercase tracking-wider font-bold">Streak</p>
+                  <p className="text-3xl font-black text-[#8a9a8f] mt-1">
+                    {stats.currentStreak} 🔥
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Frequency Display - BOLD BOX */}
           <div className="bg-[#f5efe6] rounded-xl p-5 border-3 border-[#2d3134] transform group-hover:scale-[1.02] transition-transform duration-300">
             <div className="flex items-center gap-4">

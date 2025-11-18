@@ -40,7 +40,7 @@ export const habits = pgTable(
 
 /**
  * Habit logs table
- * Tracks daily completion status for each habit
+ * Tracks daily completion status for each habit with flexible counting
  */
 export const habitLogs = pgTable(
   "habit_logs",
@@ -50,9 +50,20 @@ export const habitLogs = pgTable(
       .references(() => habits.id, { onDelete: "cascade" })
       .notNull(),
     date: date("date").notNull(),
-    completed: boolean("completed").default(false).notNull(),
+
+    // Flexible counting system
+    count: integer("count").default(0).notNull(), // How many times completed
+    goal: integer("goal").default(1).notNull(),   // Target count for this day
+    completed: boolean("completed").default(false).notNull(), // Auto: count >= goal
+
+    // Individual log entries with timestamps
+    entries: jsonb("entries").default('[]').notNull(), // Array of {id, timestamp, note}
+
+    // Overall note for the day
     note: text("note"),
+
     createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
   (table) => ({
     habitDateIdx: index("idx_habit_logs_habit_date").on(table.habitId, table.date),

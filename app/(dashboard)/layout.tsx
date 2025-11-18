@@ -16,6 +16,12 @@ export default function DashboardLayout({
             </Link>
             <nav className="flex gap-6">
               <Link
+                href="/today"
+                className="text-sm hover:underline underline-offset-4 font-semibold"
+              >
+                Today
+              </Link>
+              <Link
                 href="/habits"
                 className="text-sm hover:underline underline-offset-4"
               >
