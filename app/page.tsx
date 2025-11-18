@@ -3,95 +3,71 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="min-h-screen relative overflow-hidden bg-[#fafaf8]">
-      {/* Organic Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Large organic blob - clay/terracotta - Enhanced visibility */}
-        <div
-          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-30 animate-blob-slow"
-          style={{
-            background: 'radial-gradient(circle at 30% 40%, #d4847c 0%, #c17161 50%, transparent 100%)',
-          }}
-        />
+    <div
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(to right, #d4847c 0%, #d4847c 50%, #f5efe6 50%, #f5efe6 100%)'
+      }}
+    >
+      {/* BOLD SPLIT-SCREEN HERO - Editorial Magazine Style */}
+      <div className="relative min-h-screen flex items-center">
+        {/* Vertical divider accent */}
+        <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-0.5 bg-[#2d3134] opacity-20 z-10" />
 
-        {/* Medium blob - sage - Enhanced visibility */}
-        <div
-          className="absolute bottom-20 -left-32 w-[500px] h-[500px] rounded-full opacity-25 animate-blob animation-delay-4000"
-          style={{
-            background: 'radial-gradient(circle at 60% 50%, #8a9a8f 0%, #5f7367 50%, transparent 100%)',
-          }}
-        />
-
-        {/* Small accent blob - warm neutral - Enhanced visibility */}
-        <div
-          className="absolute top-1/2 left-1/3 w-[300px] h-[300px] rounded-full opacity-18 animate-blob animation-delay-2000"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, #c8b8a8 0%, transparent 70%)',
-          }}
-        />
-
-        {/* Grain texture overlay - Enhanced for organic feel */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-          }}
-        />
-      </div>
-
-      {/* Hero Content */}
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 min-h-screen flex items-center">
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
         <div className="grid lg:grid-cols-2 gap-16 items-center w-full py-20">
-          {/* Left Column - Text Content */}
+          {/* Left Column - BOLD WHITE TEXT ON TERRACOTTA */}
           <div className="space-y-8 animate-slide-in-left">
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#d4847c]/20">
-              <div className="w-2 h-2 rounded-full bg-[#d4847c] animate-pulse" />
-              <span className="text-sm font-medium text-[#6b6560] tracking-wide">
-                Privacy-first habit tracking
+            {/* Eyebrow - Inverted */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
+              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="text-sm font-medium tracking-wide uppercase" style={{ color: '#ffffff' }}>
+                PRIVACY-FIRST HABIT TRACKING
               </span>
             </div>
 
-            {/* Main Headline */}
-            <div className="space-y-4">
-              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold leading-[0.95] text-[#2d3134] tracking-tight">
-                Build habits
-                <br />
-                that
-                <span className="relative inline-block ml-4">
-                  <span className="relative z-10 italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>
+            {/* MASSIVE BOLD Headline - WHITE */}
+            <div className="space-y-6">
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight" style={{ color: '#ffffff' }}>
+                <span className="block">Build</span>
+                <span className="block">habits</span>
+                <span className="block">that</span>
+                <span className="relative inline-block mt-2">
+                  <span
+                    className="relative z-10 italic"
+                    style={{
+                      fontVariationSettings: "'SOFT' 100, 'WONK' 1",
+                      color: '#ffffff'
+                    }}
+                  >
                     flow
                   </span>
-                  {/* Underline decoration - Enhanced visibility */}
+                  {/* Bold underline - WHITE */}
                   <svg
-                    className="absolute -bottom-2 left-0 w-full h-4 text-[#d4847c] opacity-60"
-                    viewBox="0 0 200 12"
+                    className="absolute -bottom-4 left-0 w-full h-8 text-white"
+                    viewBox="0 0 200 20"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="none"
                   >
-                    <path
-                      d="M2 6C50 2 150 10 198 6"
-                      stroke="currentColor"
-                      strokeWidth="4.5"
-                      strokeLinecap="round"
-                    />
+                    <path d="M3 10C40 6 80 14 120 9C160 13 180 7 197 10" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+                    <path d="M2 14C45 10 85 17 125 13C165 16 185 11 198 14" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.5" />
                   </svg>
                 </span>
               </h1>
 
-              <p className="text-xl sm:text-2xl text-[#6b6560] leading-relaxed max-w-xl font-light">
+              <p className="text-xl sm:text-2xl leading-relaxed max-w-xl font-light" style={{ color: 'rgba(255, 255, 255, 0.95)' }}>
                 A minimalist space for tracking daily habits, powered by AI insights
                 that respect your privacy.
               </p>
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - INVERTED FOR TERRACOTTA BG */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link href="/habits">
                 <Button
                   size="lg"
-                  className="group relative overflow-hidden bg-[#d4847c] hover:bg-[#c17161] text-white px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="group relative overflow-hidden bg-white hover:bg-[#f5efe6] text-[#d4847c] px-8 py-6 text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 font-bold"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     Start tracking
@@ -101,30 +77,29 @@ export default function Home() {
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </span>
-                  {/* Subtle shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 </Button>
               </Link>
 
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-[#8a9a8f] text-[#5f7367] hover:bg-[#8a9a8f]/10 px-8 py-6 text-lg rounded-2xl"
+                className="border-2 border-white/50 hover:bg-white/10 px-8 py-6 text-lg rounded-2xl"
+                style={{ color: '#ffffff' }}
               >
                 Learn more
               </Button>
             </div>
 
-            {/* Feature Pills */}
+            {/* Feature Pills - INVERTED */}
             <div className="flex flex-wrap gap-3 pt-2">
               {['AI-powered insights', 'Privacy-first', 'Offline-ready'].map((feature, idx) => (
                 <div
                   key={feature}
-                  className="px-4 py-2 rounded-full bg-[#f5efe6] text-[#6b6560] text-sm font-medium animate-scale-in"
-                  style={{ animationDelay: `${(idx + 1) * 100}ms` }}
+                  className="px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-sm font-medium animate-scale-in border border-white/30"
+                  style={{ animationDelay: `${(idx + 1) * 100}ms`, color: '#ffffff' }}
                 >
                   {feature}
                 </div>
@@ -132,63 +107,51 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Column - Visual Element */}
+          {/* Right Column - DRAMATIC CARD ON CREAM BG */}
           <div className="relative lg:h-[600px] animate-slide-in-right animation-delay-200">
-            {/* Decorative card stack */}
+            {/* Decorative background shapes - SOLID COLORS */}
             <div className="relative h-full flex items-center justify-center">
-              {/* Background cards */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div
-                  className="absolute w-[320px] h-[200px] rounded-3xl shadow-xl rotate-6 opacity-40"
-                  style={{
-                    background: 'linear-gradient(135deg, #8a9a8f 0%, #5f7367 100%)',
-                  }}
-                />
-                <div
-                  className="absolute w-[320px] h-[200px] rounded-3xl shadow-xl -rotate-3 opacity-50"
-                  style={{
-                    background: 'linear-gradient(135deg, #c8b8a8 0%, #8a9a8f 100%)',
-                  }}
-                />
-              </div>
+              {/* Bold geometric accent shapes */}
+              <div className="absolute top-10 right-10 w-32 h-32 rounded-3xl bg-[#8a9a8f] rotate-12" />
+              <div className="absolute bottom-20 left-10 w-24 h-24 rounded-2xl bg-[#c8b8a8] -rotate-6" />
 
-              {/* Main card */}
-              <div className="relative glass rounded-3xl p-8 w-[340px] shadow-2xl border border-white/40 animate-float">
+              {/* Main card - BOLD SHADOWS */}
+              <div className="relative bg-white rounded-3xl p-8 w-[340px] shadow-brutal border-4 border-[#2d3134]">
                 <div className="space-y-6">
-                  {/* Mock habit item */}
+                  {/* Mock habit item - ULTRA BOLD */}
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#d4847c] to-[#c17161] flex items-center justify-center text-2xl shadow-lg">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#d4847c] to-[#c17161] flex items-center justify-center text-4xl border-3 border-[#2d3134] transform hover:scale-110 transition-transform">
                       💪
                     </div>
                     <div className="flex-1">
-                      <div className="h-3 bg-[#2d3134] rounded-full w-32 mb-2" />
-                      <div className="h-2 bg-[#6b6560]/30 rounded-full w-24" />
+                      <div className="h-5 bg-[#2d3134] rounded-lg w-40 mb-2" />
+                      <div className="h-3 bg-[#6b6560] rounded-lg w-32" />
                     </div>
                   </div>
 
-                  {/* Mock progress bar */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm text-[#6b6560]">
-                      <span className="h-2 bg-[#6b6560]/50 rounded w-16" />
-                      <span className="h-2 bg-[#6b6560]/50 rounded w-12" />
+                  {/* Mock progress bar - MAXIMUM BOLD */}
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm font-bold">
+                      <span className="h-3 bg-[#2d3134] rounded w-24" />
+                      <span className="h-3 bg-[#2d3134] rounded w-20" />
                     </div>
-                    <div className="h-3 bg-[#e8dfd5] rounded-full overflow-hidden">
+                    <div className="h-5 bg-[#e8dfd5] rounded-lg overflow-hidden border-2 border-[#2d3134]">
                       <div
-                        className="h-full bg-gradient-to-r from-[#d4847c] to-[#c17161] rounded-full"
+                        className="h-full bg-gradient-to-r from-[#d4847c] to-[#8a9a8f]"
                         style={{ width: '68%' }}
                       />
                     </div>
                   </div>
 
-                  {/* Mock week grid */}
+                  {/* Mock week grid - CHUNKY */}
                   <div className="flex gap-2">
                     {[1, 1, 0, 1, 1, 1, 0].map((filled, idx) => (
                       <div
                         key={idx}
-                        className={`w-8 h-8 rounded-lg ${
+                        className={`w-10 h-10 rounded-lg transform hover:scale-110 transition-transform border-2 ${
                           filled
-                            ? 'bg-gradient-to-br from-[#8a9a8f] to-[#5f7367]'
-                            : 'bg-[#e8dfd5]'
+                            ? 'bg-gradient-to-br from-[#8a9a8f] to-[#5f7367] border-[#2d3134]'
+                            : 'bg-white border-[#e8dfd5]'
                         }`}
                       />
                     ))}
@@ -199,11 +162,12 @@ export default function Home() {
           </div>
         </div>
       </div>
+      </div>
 
-      {/* Bottom Tech Stack Badge */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fade-in animation-delay-500">
-        <div className="glass rounded-full px-6 py-3 border border-white/30">
-          <p className="text-xs text-[#6b6560] font-medium">
+      {/* Bottom Tech Stack Badge - BOLD */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fade-in animation-delay-500 z-10">
+        <div className="bg-[#2d3134] rounded-full px-6 py-3 border-2 border-white shadow-xl">
+          <p className="text-xs text-white font-bold tracking-wide">
             Built with Next.js 15 • TypeScript • Tailwind CSS • Drizzle ORM
           </p>
         </div>

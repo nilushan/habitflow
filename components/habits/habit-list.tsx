@@ -22,10 +22,10 @@ export function HabitList({
 }: HabitListProps) {
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-lg font-semibold text-gray-700">Loading your habits...</p>
+      <div className="flex items-center justify-center py-20 animate-fade-in">
+        <div className="text-center space-y-5 bg-white border-4 border-[#2d3134] rounded-3xl p-12 shadow-brutal">
+          <div className="w-20 h-20 border-6 border-[#d4847c] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-xl font-black text-[#2d3134]">Loading your habits...</p>
         </div>
       </div>
     );
@@ -33,11 +33,11 @@ export function HabitList({
 
   if (error) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-center space-y-3 bg-red-50 border-2 border-red-200 rounded-xl p-8 max-w-md">
-          <p className="text-2xl">⚠️</p>
-          <p className="text-red-700 font-bold text-lg">Error loading habits</p>
-          <p className="text-sm text-red-600">{error.message}</p>
+      <div className="flex items-center justify-center py-20 animate-fade-in">
+        <div className="text-center space-y-4 bg-white border-4 border-[#d4847c] rounded-3xl p-10 max-w-md shadow-brutal">
+          <p className="text-5xl">⚠️</p>
+          <p className="text-[#c17161] font-black text-2xl">Error loading habits</p>
+          <p className="text-base text-[#6b6560] font-bold">{error.message}</p>
         </div>
       </div>
     );
@@ -46,22 +46,21 @@ export function HabitList({
   if (habits.length === 0) {
     return (
       <div className="flex items-center justify-center py-24 animate-fade-in">
-        <div className="text-center space-y-6 bg-white/80 backdrop-blur-lg border-2 border-dashed border-indigo-200 rounded-3xl p-16 max-w-xl shadow-2xl transform hover:scale-105 transition-all duration-500">
+        <div className="text-center space-y-7 bg-white border-4 border-[#2d3134] rounded-3xl p-16 max-w-xl shadow-brutal transform hover:scale-105 transition-all duration-500">
           <div className="relative">
-            <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-blue-400 to-purple-400 opacity-20"></div>
-            <p className="text-8xl animate-bounce relative">🌱</p>
+            <p className="text-9xl animate-float relative">🌱</p>
           </div>
-          <div className="space-y-3">
-            <p className="text-gray-900 font-extrabold text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <div className="space-y-4">
+            <p className="text-[#2d3134] font-black text-4xl">
               Your Journey Begins Here
             </p>
-            <p className="text-gray-600 text-xl leading-relaxed">
+            <p className="text-[#6b6560] text-xl leading-relaxed font-medium">
               Create your first habit and start building<br />a better version of yourself!
             </p>
           </div>
-          <div className="flex items-center justify-center gap-2 text-sm text-gray-500 pt-4">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            <span>Click "Create Habit" to get started</span>
+          <div className="flex items-center justify-center gap-3 text-base text-[#6b6560] pt-4 bg-[#f5efe6] rounded-2xl p-4 border-2 border-[#e8dfd5]">
+            <span className="w-3 h-3 rounded-full bg-[#d4847c] animate-pulse"></span>
+            <span className="font-bold">Click "Create Habit" to get started</span>
           </div>
         </div>
       </div>
@@ -88,14 +87,14 @@ export function HabitList({
           className="space-y-6 animate-slide-up"
           style={{ animationDelay: `${index * 100}ms` }}
         >
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3 bg-white rounded-2xl px-6 py-3 shadow-lg border border-gray-100">
-              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></div>
-              <h3 className="text-2xl font-extrabold capitalize bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-4 bg-white rounded-2xl px-6 py-4 shadow-brutal border-3 border-[#2d3134]">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-[#d4847c] to-[#8a9a8f]"></div>
+              <h3 className="text-3xl font-black capitalize text-[#2d3134]">
                 {category}
               </h3>
             </div>
-            <span className="px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 text-gray-700 rounded-xl text-sm font-bold shadow-sm border border-blue-100">
+            <span className="px-5 py-3 bg-[#f5efe6] text-[#2d3134] rounded-xl text-sm font-black border-2 border-[#e8dfd5]">
               {categoryHabits.length} {categoryHabits.length === 1 ? 'habit' : 'habits'}
             </span>
           </div>

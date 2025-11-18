@@ -1,8 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  /* Font families */
+  --font-fraunces: var(--font-fraunces);
+  --font-dm-sans: var(--font-dm-sans);
+
+  /* Colors */
+  --color-background: #fafaf8;
+  --color-foreground: #2d3134;
+}
 
 :root {
   /* Colors - Warm Earth Palette */
@@ -52,14 +58,14 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-feature-settings: 'kern' 1, 'liga' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-fraunces), serif;
   font-optical-sizing: auto;
   font-variation-settings: 'SOFT' 100, 'WONK' 1;
 }
@@ -97,21 +103,94 @@ h1, h2, h3, h4, h5, h6 {
     animation-delay: 4s;
   }
 
-  /* Glass morphism utility - Enhanced for depth */
+  /* Glass morphism utility - BOLD depth with color tint */
   .glass {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(232, 223, 213, 0.4);
-    box-shadow: 0 4px 16px rgba(45, 49, 52, 0.06);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 2px solid rgba(232, 223, 213, 0.6);
+    box-shadow: 0 8px 32px rgba(45, 49, 52, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
   .glass-dark {
     background: rgba(37, 40, 41, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Textured paper effect */
+  .paper-texture {
+    position: relative;
+    background: white;
+  }
+
+  .paper-texture::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(212, 132, 124, 0.03) 0px, transparent 1px, transparent 2px, rgba(212, 132, 124, 0.03) 3px),
+      repeating-linear-gradient(90deg, rgba(138, 154, 143, 0.03) 0px, transparent 1px, transparent 2px, rgba(138, 154, 143, 0.03) 3px);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* Hand-drawn wiggly border */
+  .wiggly-border {
+    border: none;
+    box-shadow: 0 0 0 3px #fafaf8;
+    position: relative;
+  }
+
+  .wiggly-border::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    background: repeating-linear-gradient(
+      45deg,
+      #d4847c 0px,
+      #d4847c 8px,
+      #c17161 8px,
+      #c17161 16px
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 3px;
+    pointer-events: none;
+  }
+
+  /* Bold color blocks */
+  .color-block-clay {
+    background: linear-gradient(135deg, #d4847c 0%, #c17161 100%);
+  }
+
+  .color-block-sage {
+    background: linear-gradient(135deg, #8a9a8f 0%, #5f7367 100%);
+  }
+
+  .color-block-warm {
+    background: linear-gradient(135deg, #f5efe6 0%, #e8dfd5 100%);
+  }
+
+  /* Dramatic shadows */
+  .shadow-brutal {
+    box-shadow:
+      8px 8px 0 rgba(212, 132, 124, 0.3),
+      16px 16px 0 rgba(138, 154, 143, 0.15);
+  }
+
+  .shadow-organic {
+    box-shadow:
+      0 20px 60px rgba(212, 132, 124, 0.15),
+      0 8px 24px rgba(138, 154, 143, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 }
 

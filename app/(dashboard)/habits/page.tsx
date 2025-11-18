@@ -82,34 +82,27 @@ export default function HabitsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafaf8] relative overflow-hidden">
-      {/* Organic background elements - Enhanced visibility */}
+    <div
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, #f5efe6 0%, #fafaf8 50%, #e8dfd5 100%)'
+      }}
+    >
+      {/* BOLD Geometric Accents - SOLID COLORS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Top right terracotta circle - SOLID */}
         <div
-          className="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20 animate-blob-slow"
-          style={{
-            background: 'radial-gradient(circle at 40% 40%, #d4847c 0%, #c17161 40%, transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute top-1/3 -left-40 w-80 h-80 rounded-full opacity-15 animate-blob animation-delay-4000"
-          style={{
-            background: 'radial-gradient(circle at 60% 50%, #8a9a8f 0%, #5f7367 40%, transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute bottom-20 right-1/4 w-72 h-72 rounded-full opacity-12 animate-blob animation-delay-2000"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, #c8b8a8 0%, transparent 60%)',
-          }}
+          className="absolute -top-20 -right-20 w-64 h-64 bg-[#d4847c] rounded-full"
         />
 
-        {/* Grain texture - Enhanced for organic feel */}
+        {/* Bottom left sage square - SOLID */}
         <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-          }}
+          className="absolute -bottom-16 -left-16 w-48 h-48 bg-[#8a9a8f] rounded-3xl rotate-12"
+        />
+
+        {/* Middle accent stripe */}
+        <div
+          className="absolute top-1/3 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#c8b8a8] to-transparent"
         />
       </div>
 
