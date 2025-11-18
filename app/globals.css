@@ -1,8 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  /* Font families */
+  --font-fraunces: var(--font-fraunces);
+  --font-dm-sans: var(--font-dm-sans);
+
+  /* Colors */
+  --color-background: #fafaf8;
+  --color-foreground: #2d3134;
+}
 
 :root {
   /* Colors - Warm Earth Palette */
@@ -52,16 +58,9 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-feature-settings: 'kern' 1, 'liga' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Fraunces', serif;
-  font-optical-sizing: auto;
-  font-variation-settings: 'SOFT' 100, 'WONK' 1;
 }
 
 @layer utilities {
