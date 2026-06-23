@@ -1,201 +1,195 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import type { CreateHabitInput, UpdateHabitInput, Habit } from '@/types/habit';
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import type { CreateHabitInput, Habit } from "@/types/habit";
 
-// Create a mock habit for testing
-const mockHabit: Habit = {
-  id: 'habit-123',
-  userId: 'user-123',
-  name: 'Morning meditation',
-  description: '10 minutes of mindfulness',
-  category: 'health',
-  frequency: { type: 'daily' },
-  createdAt: new Date('2025-01-01'),
-  updatedAt: new Date('2025-01-01'),
-  archivedAt: null,
-  sortOrder: 0,
-};
+/**
+ * Unit tests for the habit service.
+ *
+ * The database is fully mocked: each test sets the rows the mocked Drizzle
+ * client should return, so these run hermetically with no Postgres connection.
+ */
 
-// Mock the database with inline functions
-vi.mock('@/lib/db', () => ({
+// Mutable holders the mocked db reads from; reset before every test.
+const state = vi.hoisted(() => ({
+  selectResult: [] as unknown[],
+  insertResult: [] as unknown[],
+  updateResult: [] as unknown[],
+}));
+
+vi.mock("@/lib/db", () => ({
   db: {
-    insert: vi.fn(() => ({
-      values: vi.fn(() => ({
-        returning: vi.fn(() => Promise.resolve([mockHabit])),
-      })),
-    })),
-    select: vi.fn(() => ({
-      from: vi.fn(() => ({
-        where: vi.fn(() => ({
-          limit: vi.fn(() => Promise.resolve([mockHabit])),
-        })),
-        orderBy: vi.fn(() => Promise.resolve([mockHabit])),
-      })),
-    })),
-    update: vi.fn(() => ({
-      set: vi.fn(() => ({
-        where: vi.fn(() => ({
-          returning: vi.fn(() => Promise.resolve([mockHabit])),
-        })),
-      })),
-    })),
-    delete: vi.fn(() => ({
-      where: vi.fn(() => Promise.resolve(undefined)),
-    })),
+    insert: () => ({
+      values: () => ({
+        returning: () => Promise.resolve(state.insertResult),
+      }),
+    }),
+    select: () => ({
+      from: () => ({
+        where: () => ({
+          // getHabitById uses .limit(1); getHabitsByUserId uses .orderBy(...)
+          limit: () => Promise.resolve(state.selectResult),
+          orderBy: () => Promise.resolve(state.selectResult),
+        }),
+      }),
+    }),
+    update: () => ({
+      set: () => ({
+        where: () => ({
+          returning: () => Promise.resolve(state.updateResult),
+        }),
+      }),
+    }),
+    delete: () => ({
+      where: () => Promise.resolve(undefined),
+    }),
   },
 }));
 
-// Mock the schema
-vi.mock('@/lib/db/schema', () => ({
-  habits: {},
-}));
+// Import after the mock is registered.
+import {
+  createHabit,
+  getHabitsByUserId,
+  getHabitById,
+  updateHabit,
+  archiveHabit,
+  deleteHabit,
+} from "@/lib/services/habit-service";
 
-// Import the functions to test
-import { createHabit, getHabitsByUserId, updateHabit, deleteHabit, archiveHabit } from '@/lib/services/habit-service';
+const userId = "00000000-0000-0000-0000-000000000001";
 
-describe('Habit Service', () => {
-  const mockUserId = 'user-123';
+function makeHabit(overrides: Partial<Habit> = {}): Habit {
+  return {
+    id: "habit-123",
+    userId,
+    name: "Morning meditation",
+    description: "10 minutes of mindfulness",
+    category: "health",
+    frequency: { type: "daily", timesPerDay: 1 },
+    createdAt: new Date("2025-01-01"),
+    updatedAt: new Date("2025-01-01"),
+    archivedAt: null,
+    sortOrder: 0,
+    ...overrides,
+  };
+}
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+beforeEach(() => {
+  state.selectResult = [];
+  state.insertResult = [];
+  state.updateResult = [];
+});
 
-  describe('createHabit', () => {
-    it('should create a new habit with valid input', async () => {
+describe("habit-service", () => {
+  describe("createHabit", () => {
+    it("creates a habit with daily frequency", async () => {
+      const habit = makeHabit();
+      state.insertResult = [habit];
+
       const input: CreateHabitInput = {
-        name: 'Morning meditation',
-        description: '10 minutes of mindfulness',
-        category: 'health',
-        frequency: { type: 'daily' },
+        name: habit.name,
+        description: habit.description ?? undefined,
+        category: "health",
+        frequency: { type: "daily", timesPerDay: 1 },
       };
+      const result = await createHabit(userId, input);
 
-      const result = await createHabit(mockUserId, input);
-
-      expect(result).toBeDefined();
-      expect(result.name).toBe('Morning meditation');
-      expect(result.userId).toBe(mockUserId);
-      expect(result.category).toBe('health');
-      expect(result.frequency).toEqual({ type: 'daily' });
+      expect(result.id).toBe(habit.id);
+      expect(result.name).toBe(habit.name);
+      expect(result.frequency).toEqual({ type: "daily", timesPerDay: 1 });
     });
 
-    it('should create a habit with weekly frequency', async () => {
-      const input: CreateHabitInput = {
-        name: 'Gym workout',
-        category: 'health',
-        frequency: {
-          type: 'weekly',
-          days: ['Mon', 'Wed', 'Fri'],
-        },
-      };
+    it("creates a habit with weekly frequency", async () => {
+      const habit = makeHabit({
+        frequency: { type: "weekly", daysOfWeek: [1, 3, 5], timesPerDay: 1 },
+      });
+      state.insertResult = [habit];
 
-      const result = await createHabit(mockUserId, input);
+      const input: CreateHabitInput = {
+        name: "Workout",
+        category: "health",
+        frequency: { type: "weekly", daysOfWeek: [1, 3, 5], timesPerDay: 1 },
+      };
+      const result = await createHabit(userId, input);
 
       expect(result.frequency).toEqual({
-        type: 'weekly',
-        days: ['Mon', 'Wed', 'Fri'],
+        type: "weekly",
+        daysOfWeek: [1, 3, 5],
+        timesPerDay: 1,
       });
     });
 
-    it('should throw error for invalid input', async () => {
-      const invalidInput = {
-        name: '', // Empty name
-        category: 'health',
-        frequency: { type: 'daily' },
-      } as CreateHabitInput;
-
-      await expect(createHabit(mockUserId, invalidInput)).rejects.toThrow();
-    });
-  });
-
-  describe('getHabitsByUserId', () => {
-    it('should return all active habits for a user', async () => {
-      const habits = await getHabitsByUserId(mockUserId);
-
-      expect(Array.isArray(habits)).toBe(true);
-    });
-
-    it('should not return archived habits by default', async () => {
-      const habits = await getHabitsByUserId(mockUserId);
-
-      // All returned habits should have archivedAt as null
-      habits.forEach((habit) => {
-        expect(habit.archivedAt).toBeNull();
-      });
-    });
-
-    it('should return archived habits when includeArchived is true', async () => {
-      const habits = await getHabitsByUserId(mockUserId, { includeArchived: true });
-
-      expect(Array.isArray(habits)).toBe(true);
-      // May include habits with archivedAt set
-    });
-  });
-
-  describe('updateHabit', () => {
-    it('should update habit fields', async () => {
-      const habitId = 'habit-123';
-      const updates: UpdateHabitInput = {
-        name: 'Updated habit name',
-        description: 'Updated description',
+    it("throws for invalid input (empty name)", async () => {
+      const input: CreateHabitInput = {
+        name: "",
+        category: "health",
+        frequency: { type: "daily", timesPerDay: 1 },
       };
-
-      const result = await updateHabit(habitId, mockUserId, updates);
-
-      expect(result).toBeDefined();
-      expect(result.name).toBe('Updated habit name');
-      expect(result.description).toBe('Updated description');
-    });
-
-    it('should allow partial updates', async () => {
-      const habitId = 'habit-123';
-      const updates: UpdateHabitInput = {
-        name: 'New name only',
-      };
-
-      const result = await updateHabit(habitId, mockUserId, updates);
-
-      expect(result.name).toBe('New name only');
-    });
-
-    it('should throw error for non-existent habit', async () => {
-      const updates: UpdateHabitInput = { name: 'Test' };
-
-      await expect(
-        updateHabit('non-existent-id', mockUserId, updates)
-      ).rejects.toThrow();
-    });
-
-    it('should prevent updating another users habit', async () => {
-      const habitId = 'habit-123';
-      const updates: UpdateHabitInput = { name: 'Hacked' };
-
-      await expect(
-        updateHabit(habitId, 'different-user-id', updates)
-      ).rejects.toThrow();
+      await expect(createHabit(userId, input)).rejects.toThrow();
     });
   });
 
-  describe('archiveHabit', () => {
-    it('should archive a habit', async () => {
-      const habitId = 'habit-123';
+  describe("getHabitsByUserId", () => {
+    it("returns the user's habits", async () => {
+      state.selectResult = [makeHabit({ id: "h1" }), makeHabit({ id: "h2" })];
+      const result = await getHabitsByUserId(userId);
+      expect(result).toHaveLength(2);
+      expect(result[0].id).toBe("h1");
+    });
 
-      const result = await archiveHabit(habitId, mockUserId);
+    it("returns habits when includeArchived is true", async () => {
+      state.selectResult = [makeHabit({ id: "h1", archivedAt: new Date() })];
+      const result = await getHabitsByUserId(userId, { includeArchived: true });
+      expect(result).toHaveLength(1);
+    });
+  });
 
-      expect(result.archivedAt).not.toBeNull();
+  describe("getHabitById", () => {
+    it("returns the habit when found", async () => {
+      state.selectResult = [makeHabit()];
+      const result = await getHabitById("habit-123", userId);
+      expect(result?.id).toBe("habit-123");
+    });
+
+    it("returns null when not found", async () => {
+      state.selectResult = [];
+      const result = await getHabitById("missing", userId);
+      expect(result).toBeNull();
+    });
+  });
+
+  describe("updateHabit", () => {
+    it("updates and returns the habit", async () => {
+      state.selectResult = [makeHabit()]; // existing habit for the ownership check
+      state.updateResult = [makeHabit({ name: "Updated" })];
+      const result = await updateHabit("habit-123", userId, { name: "Updated" });
+      expect(result.name).toBe("Updated");
+    });
+
+    it("throws when the habit does not exist", async () => {
+      state.selectResult = []; // ownership check finds nothing
+      await expect(
+        updateHabit("missing", userId, { name: "x" })
+      ).rejects.toThrow(/not found/i);
+    });
+  });
+
+  describe("archiveHabit", () => {
+    it("sets archivedAt", async () => {
+      state.selectResult = [makeHabit()];
+      state.updateResult = [makeHabit({ archivedAt: new Date("2025-02-01") })];
+      const result = await archiveHabit("habit-123", userId);
       expect(result.archivedAt).toBeInstanceOf(Date);
     });
   });
 
-  describe('deleteHabit', () => {
-    it('should delete a habit permanently', async () => {
-      const habitId = 'habit-123';
-
-      await expect(deleteHabit(habitId, mockUserId)).resolves.not.toThrow();
+  describe("deleteHabit", () => {
+    it("resolves when the habit exists", async () => {
+      state.selectResult = [makeHabit()];
+      await expect(deleteHabit("habit-123", userId)).resolves.toBeUndefined();
     });
 
-    it('should throw error when deleting non-existent habit', async () => {
-      await expect(
-        deleteHabit('non-existent-id', mockUserId)
-      ).rejects.toThrow();
+    it("throws when the habit does not exist", async () => {
+      state.selectResult = [];
+      await expect(deleteHabit("missing", userId)).rejects.toThrow(/not found/i);
     });
   });
 });

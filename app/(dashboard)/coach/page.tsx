@@ -70,7 +70,7 @@ export default function CoachPage() {
                 <div className="flex-1 space-y-2">
                   <div className="inline-block glass rounded-2xl rounded-tl-sm p-4 border border-[#8a9a8f]/20 max-w-md">
                     <p className="text-[#2d3134] leading-relaxed">
-                      Hi there! 👋 I've noticed you've been doing great with your morning meditation habit. You've maintained a 14-day streak!
+                      Hi there! 👋 I&apos;ve noticed you&apos;ve been doing great with your morning meditation habit. You&apos;ve maintained a 14-day streak!
                     </p>
                   </div>
                   <p className="text-xs text-[#6b6560]/60 ml-1">9:24 AM</p>
@@ -82,7 +82,7 @@ export default function CoachPage() {
                 <div className="flex-1 space-y-2 flex flex-col items-end">
                   <div className="inline-block bg-gradient-to-br from-[#d4847c] to-[#c17161] rounded-2xl rounded-tr-sm p-4 max-w-md shadow-md">
                     <p className="text-white leading-relaxed">
-                      Thank you! I'm finding it really helpful for my focus.
+                      Thank you! I&apos;m finding it really helpful for my focus.
                     </p>
                   </div>
                   <p className="text-xs text-[#6b6560]/60 mr-1">9:25 AM</p>
@@ -102,7 +102,7 @@ export default function CoachPage() {
                 <div className="flex-1 space-y-2">
                   <div className="inline-block glass rounded-2xl rounded-tl-sm p-4 border border-[#8a9a8f]/20 max-w-md">
                     <p className="text-[#2d3134] leading-relaxed">
-                      That's wonderful! Based on your journal entries, I've noticed meditation is positively affecting your work productivity too.
+                      That&apos;s wonderful! Based on your journal entries, I&apos;ve noticed meditation is positively affecting your work productivity too.
                     </p>
                     <div className="mt-3 p-3 bg-[#f5efe6] rounded-xl">
                       <p className="text-xs font-semibold text-[#5f7367] uppercase tracking-wide mb-1">Suggestion</p>
@@ -120,7 +120,7 @@ export default function CoachPage() {
                 <div className="flex-1 space-y-2 flex flex-col items-end">
                   <div className="inline-block bg-gradient-to-br from-[#d4847c] to-[#c17161] rounded-2xl rounded-tr-sm p-4 max-w-md shadow-md">
                     <p className="text-white leading-relaxed">
-                      Good idea! I'll try that tomorrow morning.
+                      Good idea! I&apos;ll try that tomorrow morning.
                     </p>
                   </div>
                   <p className="text-xs text-[#6b6560]/60 mr-1">9:27 AM</p>

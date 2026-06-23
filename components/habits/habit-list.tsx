@@ -61,7 +61,7 @@ export function HabitList({
           </div>
           <div className="flex items-center justify-center gap-2 text-sm text-gray-500 pt-4">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            <span>Click "Create Habit" to get started</span>
+            <span>Click &quot;Create Habit&quot; to get started</span>
           </div>
         </div>
       </div>
