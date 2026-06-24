@@ -69,14 +69,35 @@ pnpm install
 docker compose up -d
 
 # 3. Configure environment
-cp .env.example .env.local   # then fill in DATABASE_URL, Clerk, and AI keys
+cp .env.example .env.local
+# For local dev you only need DATABASE_URL — set it to match docker-compose.yml:
+#   DATABASE_URL="postgresql://habitflow:habitflow_dev_password@localhost:5432/habitflow"
+# The Clerk and Anthropic keys in .env.example are placeholders for later phases
+# and are NOT required yet (see "Auth & seeding" below).
 
 # 4. Apply the database schema
 pnpm db:push
 
-# 5. Run the dev server
+# 5. Seed the local dev user (required — see below)
+docker compose exec -T postgres psql -U habitflow -d habitflow -c \
+  "INSERT INTO users (id, clerk_id, email) VALUES ('00000000-0000-0000-0000-000000000001','dev','dev@habitflow.local') ON CONFLICT DO NOTHING;"
+
+# 6. Run the dev server
 pnpm dev                     # http://localhost:3000
 ```
+
+### Auth & seeding
+
+Authentication is **not wired up yet** — Clerk is on the roadmap but the app
+currently identifies the user via a hardcoded `x-user-id` header
+(`00000000-0000-0000-0000-000000000001`). Because `habits.user_id` is a foreign
+key into `users`, **habit creation fails until that user row exists**, so the
+seed step above is mandatory on a fresh database. You do not need Clerk or
+Anthropic keys to run, log habits, or browse the UI.
+
+> **Port already in use?** If `5432` (Postgres) or `3000` (Next.js) is taken,
+> remap Postgres in `docker-compose.yml` (and `DATABASE_URL`); Next.js will
+> auto-pick the next free port and print it on startup.
 
 ## Scripts
 
@@ -84,7 +105,9 @@ pnpm dev                     # http://localhost:3000
 |---|---|
 | `pnpm dev` | Start the development server |
 | `pnpm build` / `pnpm start` | Production build / serve |
-| `pnpm test` / `pnpm test:watch` / `pnpm test:coverage` | Unit tests (Vitest) |
+| `pnpm test:unit` | Unit tests only (Vitest, no server needed) |
+| `pnpm test` / `pnpm test:watch` / `pnpm test:coverage` | Full Vitest run — includes integration tests that require a dev server on `localhost:3000` |
+| `pnpm test:integration` | Integration tests (needs `pnpm dev` running) |
 | `pnpm test:e2e` / `pnpm test:e2e:ui` | End-to-end tests (Playwright) |
 | `pnpm type-check` | TypeScript type checking |
 | `pnpm lint` | ESLint |
