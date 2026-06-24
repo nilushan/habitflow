@@ -8,6 +8,25 @@
   /* Colors */
   --color-background: #fafaf8;
   --color-foreground: #2d3134;
+
+  /* shadcn/ui semantic tokens (warm earth palette, light theme) */
+  --color-card: #ffffff;
+  --color-card-foreground: #2d3134;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #2d3134;
+  --color-primary: #d4847c;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f5efe6;
+  --color-secondary-foreground: #2d3134;
+  --color-muted: #f5efe6;
+  --color-muted-foreground: #6b6560;
+  --color-accent: #ece4d9;
+  --color-accent-foreground: #2d3134;
+  --color-destructive: #c17161;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #e8dfd5;
+  --color-input: #d8cdbf;
+  --color-ring: #d4847c;
 }
 
 :root {
@@ -39,20 +58,15 @@
   --shadow-xl: 0 16px 48px rgba(45, 49, 52, 0.16);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1a1d1f;
-    --foreground: #f5efe6;
-    --surface: #252829;
-    --surface-muted: #2d3134;
-    --charcoal: #f5efe6;
-    --warmgray: #c8b8a8;
-
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
-    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5);
-  }
+/*
+ * HabitFlow ships a single light theme — every page hardcodes light
+ * backgrounds (bg-[#fafaf8], bg-white). The previous prefers-color-scheme:dark
+ * override only flipped the text tokens to light, leaving light text on those
+ * light backgrounds (unreadable for anyone whose OS is in dark mode). Until a
+ * real dark theme exists, pin the palette to light so contrast holds.
+ */
+:root {
+  color-scheme: light;
 }
 
 body {
